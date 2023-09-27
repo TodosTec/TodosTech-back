@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+//
 public class UsuarioLoginDTO {
     @Id
     private String cusername;
