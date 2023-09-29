@@ -2,6 +2,7 @@ package com.example.apicadastrotodostec;
 // Api referente ao Cadastro
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController //trabalha com JSON
+@CrossOrigin
 @RequestMapping("/api/todostec")
 public class UsuarioController {
     private final UsuarioRepository usuarioRepository;
@@ -21,32 +23,32 @@ public class UsuarioController {
         return usuarioRepository.findAll();
     }
     @GetMapping("/selecionar/email/{cemail}")
-    public ResponseEntity<String> listarUsuarioPorEmail(@PathVariable String cemail){
+    public String listarUsuarioPorEmail(@PathVariable String cemail){
         List<Usuario> res = usuarioRepository.findAllByCemail(cemail);
         if(res.size() != 0) {
-            return ResponseEntity.ok("E-mail já cadastrado.");
+            return "Email existe";
         } else {
-            return ResponseEntity.ok("");
+            return "Email liberado";
         }
     }
 //
     @GetMapping("/selecionar/telefone/{ctelefone}")
-    public ResponseEntity<String> listarUsuarioPorTelefone(@PathVariable String ctelefone){
+    public String listarUsuarioPorTelefone(@PathVariable String ctelefone){
         List<Usuario> res = usuarioRepository.findAllByCtelefone(ctelefone);
         if(res.size() != 0) {
-            return ResponseEntity.ok("Telefone já cadastrado.");
+            return "Telefone existe";
         } else {
-            return ResponseEntity.ok("");
+            return "Telefone liberado";
         }
     }
 
     @GetMapping("/selecionar/username/{cusername}")
-    public ResponseEntity<String> listarUsuarioPorUsername(@PathVariable String cusername){
+    public String listarUsuarioPorUsername(@PathVariable String cusername){
         List<Usuario> res = usuarioRepository.findAllByCusername(cusername);
-        if(res.size() != 0) {
-            return ResponseEntity.ok("Username já cadastrado.");
+        if (res.size() != 0) {
+            return "Username existe";
         } else {
-            return ResponseEntity.ok("");
+            return "Username liberado";
         }
     }
 
@@ -66,10 +68,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/inserir")
-    public ResponseEntity<String> inserirUsuarios(@RequestBody Usuario usuario)
+    public boolean inserirUsuarios(@RequestBody Usuario usuario)
     {
         usuario.setNcontaativa("1");
         usuarioRepository.save(usuario);
-        return ResponseEntity.ok("Usuário inserido com sucesso");
+        return true;
     }
 }
