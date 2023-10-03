@@ -1,6 +1,7 @@
 package com.example.apicadastrotodostec;
 // Api referente ao Cadastro
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,32 +24,39 @@ public class UsuarioController {
         return usuarioRepository.findAll();
     }
     @GetMapping("/selecionar/email/{cemail}")
-    public String listarUsuarioPorEmail(@PathVariable String cemail){
+    public ResponseEntity<RespostaJSON> listarUsuarioPorEmail(@PathVariable String cemail){
         List<Usuario> res = usuarioRepository.findAllByCemail(cemail);
         if(res.size() != 0) {
-            return "Email existe";
+            RespostaJSON resposta = new RespostaJSON("Email existe", "sucesso");
+            return ResponseEntity.ok(resposta);
         } else {
-            return "Email liberado";
+            RespostaJSON resposta = new RespostaJSON("Email liberado", "sucesso");
+            return ResponseEntity.ok(resposta);
         }
     }
     //
     @GetMapping("/selecionar/telefone/{ctelefone}")
-    public String listarUsuarioPorTelefone(@PathVariable String ctelefone){
+    public ResponseEntity<RespostaJSON> listarUsuarioPorTelefone(@PathVariable String ctelefone) {
         List<Usuario> res = usuarioRepository.findAllByCtelefone(ctelefone);
-        if(res.size() != 0) {
-            return "Telefone existe";
+        if (res.size() != 0) {
+            RespostaJSON resposta = new RespostaJSON("Telefone existe", "sucesso");
+            return ResponseEntity.ok(resposta);
         } else {
-            return "Telefone liberado";
+            RespostaJSON resposta = new RespostaJSON("Telefone liberado", "sucesso");
+            return ResponseEntity.ok(resposta);
         }
     }
 
+
     @GetMapping("/selecionar/username/{cusername}")
-    public String listarUsuarioPorUsername(@PathVariable String cusername){
+    public ResponseEntity<RespostaJSON> listarUsuarioPorUsername(@PathVariable String cusername){
         List<Usuario> res = usuarioRepository.findAllByCusername(cusername);
         if (res.size() != 0) {
-            return "Username existe";
+            RespostaJSON resposta = new RespostaJSON("Username existe", "sucesso");
+            return ResponseEntity.ok(resposta);
         } else {
-            return "Username liberado";
+            RespostaJSON resposta = new RespostaJSON("Username liberado", "sucesso");
+            return ResponseEntity.ok(resposta);
         }
     }
 
