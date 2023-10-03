@@ -31,7 +31,7 @@ public class UsuarioController {
             return "Email liberado";
         }
     }
-//
+    //
     @GetMapping("/selecionar/telefone/{ctelefone}")
     public String listarUsuarioPorTelefone(@PathVariable String ctelefone){
         List<Usuario> res = usuarioRepository.findAllByCtelefone(ctelefone);
@@ -70,7 +70,6 @@ public class UsuarioController {
     @PostMapping("/inserir")
     public boolean inserirUsuarios(@RequestBody Usuario usuario)
     {
-        usuario.setNcontaativa("1");
         usuarioRepository.save(usuario);
         return true;
     }

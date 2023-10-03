@@ -12,16 +12,17 @@ import java.util.Date;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long ncdusuario;
+    private Long ncdusuario;
     private String cnome;
     private String cusername;
     private String csenha;
     private String ctelefone;
     private String cemail;
-    @Transient
-    private String ncontaativa;
-    private long ncdpronome;
-    private long ncdgenero;
-    private long ncdsexualidade;
+    private String ncontaativa = "1";
+    private Long ncdpronome;
+    private Long ncdgenero;
+    private Long ncdsexualidade;
     private String cdescricao;
+    private String clinksite;
+    // link do site
 }
