@@ -1,4 +1,4 @@
-package com.example.apicadastrotodostec;
+package com.example.apicadastrotodostec.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 

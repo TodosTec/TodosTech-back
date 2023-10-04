@@ -1,9 +1,12 @@
-package com.example.apicadastrotodostec;
+package com.example.apicadastrotodostec.Controller;
 // Api referente ao Cadastro
 
 
+import com.example.apicadastrotodostec.Repository.UsuarioRepository;
+import com.example.apicadastrotodostec.DTO.RespostaJSON;
+import com.example.apicadastrotodostec.Entity.Usuario;
+import com.example.apicadastrotodostec.DTO.UsuarioLoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +25,10 @@ public class UsuarioController {
     @GetMapping("/selecionar")
     public List<Usuario> listarUsuarios(){
         return usuarioRepository.findAll();
+    }
+    @GetMapping("/selecionar/username/{cusername}")
+    public Optional<Usuario> trazerUsuario(@PathVariable String cusername){
+        return usuarioRepository.findByCusername(cusername);
     }
     @GetMapping("/selecionar/email/{cemail}")
     public ResponseEntity<RespostaJSON> listarUsuarioPorEmail(@PathVariable String cemail){
@@ -48,10 +55,10 @@ public class UsuarioController {
     }
 
 
-    @GetMapping("/selecionar/username/{cusername}")
+    @GetMapping("/selecionar/verificarUsername/{cusername}")
     public ResponseEntity<RespostaJSON> listarUsuarioPorUsername(@PathVariable String cusername){
-        List<Usuario> res = usuarioRepository.findAllByCusername(cusername);
-        if (res.size() != 0) {
+        Optional<Usuario> res = usuarioRepository.findByCusername(cusername);
+        if (res.isPresent()) {
             RespostaJSON resposta = new RespostaJSON("Username existe", "sucesso");
             return ResponseEntity.ok(resposta);
         } else {
@@ -75,10 +82,33 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping("/inserir")
-    public boolean inserirUsuarios(@RequestBody Usuario usuario)
-    {
-        usuarioRepository.save(usuario);
-        return true;
+        @PostMapping("/inserir")
+        public boolean inserirUsuarios(@RequestBody Usuario usuario)
+        {
+            usuarioRepository.save(usuario);
+            return true;
+        }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<String> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado){
+        Optional<Usuario> usuarioExistente = usuarioRepository.findById(id);
+        if(usuarioExistente.isPresent()){
+            Usuario usuario = usuarioExistente.get();
+            usuario.setCnome(usuarioAtualizado.getCnome());
+            usuario.setCusername(usuarioAtualizado.getCusername());
+            usuario.setCtelefone(usuarioAtualizado.getCtelefone());
+            usuario.setCemail(usuarioAtualizado.getCemail());
+            usuario.setNcdpronome(usuarioAtualizado.getNcdpronome());
+            usuario.setNcdgenero(usuarioAtualizado.getNcdgenero());
+            usuario.setNcdsexualidade(usuarioAtualizado.getNcdsexualidade());
+            usuario.setCdescricao(usuarioAtualizado.getCdescricao());
+            usuario.setClinksite(usuarioAtualizado.getClinksite());
+            usuarioRepository.save(usuario);
+            return ResponseEntity.ok("Usuario atualizado com sucesso.");
+
+        } else{
+            return ResponseEntity.notFound().build();
+        }
     }
+
 }
