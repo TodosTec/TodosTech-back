@@ -1,4 +1,4 @@
-package com.example.apicadastrotodostec;
+package com.example.apicadastrotodostec.Config;
 
 import lombok.AllArgsConstructor;
 
