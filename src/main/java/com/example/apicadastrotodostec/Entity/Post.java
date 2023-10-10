@@ -3,6 +3,8 @@ package com.example.apicadastrotodostec.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Optional;
+
 @Getter
 @Setter
 @ToString
@@ -19,5 +21,4 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "ncdusuario", referencedColumnName = "ncdusuario", insertable = false, updatable = false)
     private Usuario usuario;
-
 }

@@ -41,7 +41,7 @@ public class UsuarioController {
             return ResponseEntity.ok(resposta);
         }
     }
-    //
+
     @GetMapping("/selecionar/telefone/{ctelefone}")
     public ResponseEntity<RespostaJSON> listarUsuarioPorTelefone(@PathVariable String ctelefone) {
         List<Usuario> res = usuarioRepository.findAllByCtelefone(ctelefone);
