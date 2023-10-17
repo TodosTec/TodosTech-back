@@ -24,5 +24,6 @@ public class Usuario {
     private Long ncdsexualidade;
     private String cdescricao;
     private String clinksite;
+    private String clinkfoto;
     // link do site
 }
