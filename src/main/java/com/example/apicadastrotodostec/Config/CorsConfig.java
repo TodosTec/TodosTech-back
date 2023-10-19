@@ -14,11 +14,14 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:8000");
+        config.addAllowedOrigin("*");
+        //config.addAllowedOrigin("http://localhost:8000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/conect/**", config); // Substitua pelo seu endpoint WebSocket
-        return new CorsFilter(source);
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter((CorsConfigurationSource) source);
+        //source.registerCorsConfiguration("/conect/**", config);
+        //return new CorsFilter(source);
     }
 
 }

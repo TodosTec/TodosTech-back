@@ -32,6 +32,7 @@ public class UsuarioController {
     public Optional<Usuario> trazerUsuario(@PathVariable String cusername){
         return usuarioRepository.findByCusername(cusername);
     }
+
     @GetMapping("/selecionar/email/{cemail}")
     public ResponseEntity<RespostaJSON> listarUsuarioPorEmail(@PathVariable String cemail){
         List<Usuario> res = usuarioRepository.findAllByCemail(cemail);
