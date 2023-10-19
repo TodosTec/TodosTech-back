@@ -18,6 +18,8 @@ import java.util.Optional;
 @RequestMapping("/api/todostec")
 public class UsuarioController {
     private final UsuarioRepository usuarioRepository;
+    private static String CHAT_ENGINE_PROJECT_ID = "00082846-ba28-48e2-919e-ccba46a41346";
+    private static String CHAT_ENGINE_PRIVATE_KEY = "8a875301-c34d-4df0-b73d-27d61ad95e81";
     @Autowired
     public UsuarioController(UsuarioRepository usuarioRepository){
         this.usuarioRepository = usuarioRepository;
@@ -73,7 +75,7 @@ public class UsuarioController {
         Optional<Usuario> usuarioExistente = usuarioRepository.findByCusername(usuarioLogin.getCusername());
         if(usuarioExistente.isPresent()){
             if(usuarioExistente.get().getCsenha().equals(usuarioLogin.getCsenha())) {
-                return "Logado";
+                return usuarioExistente.toString();
             } else {
                 return "Senha incorreta";
             }
