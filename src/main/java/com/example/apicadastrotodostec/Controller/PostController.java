@@ -26,30 +26,56 @@ public class PostController {
         return postRepository.findAll();
     }
 
-    ArrayList<Long> postsUsados = new ArrayList<>();
+    ArrayList<Post> postsUsados = new ArrayList<>();
 
     @GetMapping("/selecionar/random")
     public ArrayList<Post> listarPostsAleatoriosComClinksite() {
-        ArrayList<Post> posts = new ArrayList<>();
-        ArrayList<Post> postsLink = new ArrayList<>(postRepository.findAllByLinkExistente());
-        Post featuredPost = postRepository.findRandomPostsWithClinksite().orElse(postRepository.findOneByLinkExistente());
-        int nMaximo = postRepository.findAll().size();
-        int numeroaleatorio = new java.util.Random().nextInt((9 - 0) + 1) + 0;
-        if (featuredPost != null) {
-            postsLink.add(numeroaleatorio, featuredPost);
-        }
-        if (postsUsados.size() > nMaximo - 3) {
+        ArrayList<Post> postsToAdd = new ArrayList<>();
+        ArrayList<Post> allPosts = new ArrayList<>(postRepository.findAll());
+        int nMax = allPosts.size();
+        if(nMax == postsUsados.size()){
             postsUsados = new ArrayList<>();
         }
+        while(postsToAdd.size() < 10 && nMax != postsUsados.size()){
+            ArrayList<Post> posts = new ArrayList<>(postRepository.findAllWithoutLinkExistente());
+            Post featuredPost = postRepository.findRandomPostsWithClinksite().orElse(null);
 
-        postsLink.stream().forEach(post -> {
-            if (!postsUsados.contains(post.getNcdpost())) {
-                postsUsados.add(post.getNcdpost());
-                posts.add(post);
+            if (featuredPost != null) {
+                if (!isPostAlreadyUsed(featuredPost)) {
+                    System.out.println("Post Pago Adicionado!");
+                    posts.add(featuredPost);
+                } else {
+                    System.out.println("Post Pago repetido, cancela.");
+                }
             }
-        });
-        return posts;
+
+            for (Post post : posts) {
+                if (!isPostAlreadyUsed(post)) {
+                    System.out.println("Novo post adicionado aos usados: " + post.getNcdpost());
+                    postsUsados.add(post);
+                    postsToAdd.add(post);
+                } else {
+                    System.out.println("Post já foi usado: " + post.getNcdpost());
+                }
+            }
+        }
+
+        return postsToAdd;
     }
+
+    private boolean isPostAlreadyUsed(Post post) {
+        System.out.println("entrou");
+        for (Post postUsado : postsUsados) {
+            if (postUsado.getNcdpost().equals(post.getNcdpost())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
 
     @GetMapping("/selecionar/{cusername}")
     public Optional<List<Post>> listarPostsComUsername(@PathVariable String cusername) {

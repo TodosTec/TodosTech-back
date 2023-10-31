@@ -11,7 +11,8 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p, u.cusername, u.cnome, u.clinksite FROM Post p, Usuario u WHERE u.clinksite IS NULL AND u.ncdusuario = p.ncdusuario ORDER BY RANDOM() LIMIT 9")
-    List<Post> findAllByLinkExistente();
+    List<Post> findAllWithoutLinkExistente();
+    //trazer 9 posts, sem o post pago
 
     @Query("SELECT p, u.cusername, u.cnome, u.clinksite FROM Post p, Usuario u WHERE u.clinksite IS NOT NULL AND u.ncdusuario = p.ncdusuario ORDER BY RANDOM() LIMIT 1")
     Post findOneByLinkExistente();

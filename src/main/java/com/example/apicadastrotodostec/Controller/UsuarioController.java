@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController //trabalha com JSON
@@ -99,6 +100,7 @@ public class UsuarioController {
             Usuario usuario = usuarioExistente.get();
             usuario.setCnome(usuarioAtualizado.getCnome());
             usuario.setCusername(usuarioAtualizado.getCusername());
+            usuario.setCsenha(usuarioAtualizado.getCsenha());
             usuario.setCtelefone(usuarioAtualizado.getCtelefone());
             usuario.setCemail(usuarioAtualizado.getCemail());
             usuario.setNcdpronome(usuarioAtualizado.getNcdpronome());
