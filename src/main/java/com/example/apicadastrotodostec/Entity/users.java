@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "usuario")
+@Document(collation = "users")
 @Getter
 @Setter
 @AllArgsConstructor
-public class UsuarioMongo {
+public class users {
 
-    private String cnome;
+    private String cusername;
 
 
 }
