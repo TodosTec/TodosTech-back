@@ -2,6 +2,8 @@ package com.example.apicadastrotodostec.Repository;
 
 import com.example.apicadastrotodostec.Entity.Post;
 import com.example.apicadastrotodostec.Entity.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,6 +28,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT u.ncdusuario FROM Usuario u WHERE u.cusername = :username")
     Optional<Long> findIdUsuarioByUsername(@Param("username") String username);
 
+    @Query("SELECT p FROM Post p WHERE p.ncdpost NOT IN (SELECT h.ncdpost FROM Historico h WHERE h.ncdusuario = :ncdUsuario)")
+    Page<Post> findPostNotView(@Param("ncdUsuario") Long ncdUsuario,Pageable pageable);
 
 
 }

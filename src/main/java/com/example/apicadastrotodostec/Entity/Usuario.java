@@ -1,6 +1,7 @@
 package com.example.apicadastrotodostec.Entity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 @Getter
