@@ -1,8 +1,13 @@
 package com.example.apicadastrotodostec.Controller;
 
+import com.example.apicadastrotodostec.Entity.Historico;
 import com.example.apicadastrotodostec.Entity.Post;
+import com.example.apicadastrotodostec.Repository.HistoricoRepository;
 import com.example.apicadastrotodostec.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,6 +19,10 @@ import java.util.Optional;
 @RequestMapping("/api/todostec/post")
 public class PostController {
     private final PostRepository postRepository;
+
+
+    @Autowired
+    HistoricoRepository historicoRepository;
 
     @Autowired
     public PostController(PostRepository postRepository) {
@@ -89,4 +98,36 @@ public class PostController {
         postRepository.save(post);
         return true;
     }
+
+    @GetMapping("/find/posts/{ncdUsuario}")
+    public Page<Post> findPostNotView(@PathVariable Long ncdUsuario) {
+        try {
+            Pageable pageable1 = PageRequest.of(0, 10);
+
+            Page<Post> postPage = postRepository.findPostNotView(ncdUsuario,pageable1);
+
+            List<Post> postList = postPage.getContent();
+
+
+            List<Historico> historicoList = new ArrayList<>();
+
+            for (Post post : postList) {
+
+                Historico historico = new Historico();
+                historico.setNcdusuario(ncdUsuario);
+                historico.setNcdpost(post.getNcdpost());
+
+                historicoList.add(historico);
+            }
+
+            historicoRepository.saveAll(historicoList);
+
+            return postPage;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Ocorreu um erro ao processar a solicitação.");
+        }
+    }
+
+
 }
