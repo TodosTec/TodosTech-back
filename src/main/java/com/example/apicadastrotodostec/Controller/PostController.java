@@ -4,6 +4,7 @@ import com.example.apicadastrotodostec.Entity.Historico;
 import com.example.apicadastrotodostec.Entity.Post;
 import com.example.apicadastrotodostec.Repository.HistoricoRepository;
 import com.example.apicadastrotodostec.Repository.PostRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -100,11 +101,19 @@ public class PostController {
     }
 
     @GetMapping("/find/posts/{ncdUsuario}")
+    @Transactional
     public Page<Post> findPostNotView(@PathVariable Long ncdUsuario) {
         try {
-            Pageable pageable1 = PageRequest.of(0, 10);
+            Pageable pageable1 = PageRequest.of(0, 50);
 
             Page<Post> postPage = postRepository.findPostNotView(ncdUsuario,pageable1);
+
+            if(postPage.isEmpty()){
+                postRepository.deleteHistoricoByNcdUsuario(ncdUsuario);
+                postPage = postRepository.findPostNotView(ncdUsuario,pageable1);
+
+
+            }
 
             List<Post> postList = postPage.getContent();
 

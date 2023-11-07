@@ -9,6 +9,7 @@ import com.example.apicadastrotodostec.DTO.UsuarioLoginDTO;
 import com.example.apicadastrotodostec.Service.ServiceUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -92,6 +93,10 @@ public class UsuarioController {
         @PostMapping("/inserir")
         public boolean inserirUsuarios(@RequestBody Usuario usuario)
         {
+            if(ObjectUtils.isEmpty(usuario.getClinkfoto())){
+                usuario.setClinkfoto("https://icons-for-free.com/iconfiles/png/512/city+citycons+corporate+icon-1320136424674449796.png");
+
+            }
             serviceUsuario.inserirUsuarios(usuario);
             return true;
         }
