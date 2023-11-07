@@ -115,6 +115,7 @@ public class UsuarioController {
             usuario.setNcdgenero(usuarioAtualizado.getNcdgenero());
             usuario.setNcdsexualidade(usuarioAtualizado.getNcdsexualidade());
             usuario.setCdescricao(usuarioAtualizado.getCdescricao());
+            usuario.setClinkfoto(usuarioAtualizado.getClinkfoto());
             usuario.setClinksite(usuarioAtualizado.getClinksite());
             usuarioRepository.save(usuario);
             return ResponseEntity.ok("Usuario atualizado com sucesso.");
