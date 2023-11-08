@@ -2,7 +2,9 @@ package com.example.apicadastrotodostec.Controller;
 
 import com.example.apicadastrotodostec.Entity.Historico;
 import com.example.apicadastrotodostec.Entity.Post;
+import com.example.apicadastrotodostec.Entity.users;
 import com.example.apicadastrotodostec.Repository.HistoricoRepository;
+import com.example.apicadastrotodostec.Repository.MongoUsuarioRepository;
 import com.example.apicadastrotodostec.Repository.PostRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,6 @@ import java.util.Optional;
 @RequestMapping("/api/todostec/post")
 public class PostController {
     private final PostRepository postRepository;
-
-
     @Autowired
     HistoricoRepository historicoRepository;
 
@@ -137,6 +137,8 @@ public class PostController {
             throw new RuntimeException("Ocorreu um erro ao processar a solicitação.");
         }
     }
+
+
 
 
 }
